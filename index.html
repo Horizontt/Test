@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VineAI — AI Automation for Australian SMBs</title>
+<meta name="description" content="We audit your business, find the highest-impact AI opportunities, and implement the systems that cut costs, automate workflows, and free up your team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#080a0f;color:#fff;font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#080a0f}
+::-webkit-scrollbar-thumb{background:rgba(52,211,153,0.3);border-radius:3px}
+::selection{background:rgba(52,211,153,0.3);color:#fff}
+a{text-decoration:none}
+button{font-family:inherit}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+.reveal.from-left{transform:translateX(40px)}
+.reveal.from-right{transform:translateX(-40px)}
+.reveal.visible{opacity:1;transform:none}
+
+/* Glass card */
+.glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:16px;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.glass.hoverable:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.15);transform:translateY(-4px)}
+.glass.clickable{cursor:pointer}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:#34d399;font-size:13px;font-weight:500;font-family:'DM Mono',monospace}
+
+/* Tag */
+.tag{padding:5px 12px;border-radius:6px;font-size:12px;font-family:'DM Mono',monospace}
+.tag-green{background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.15);color:#34d399}
+.tag-blue{background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.15);color:#60a5fa}
+.tag-pink{background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.15);color:#f472b6}
+
+/* Category badges */
+.cat{padding:4px 10px;border-radius:6px;font-size:11px;font-family:'DM Mono',monospace}
+.cat-strategy{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:#34d399}
+.cat-insights{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);color:#60a5fa}
+.cat-casestudy{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:#fbbf24}
+.cat-compliance{background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:#f472b6}
+.cat-featured{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:#fbbf24}
+
+/* Typography */
+.font-display{font-family:'Space Grotesk',sans-serif}
+.font-mono{font-family:'DM Mono',monospace}
+
+/* CTA button */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:12px;background:linear-gradient(135deg,#34d399,#059669);color:#080a0f;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(52,211,153,0.2);transition:all 0.3s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(52,211,153,0.35)}
+.btn-secondary{display:inline-flex;align-items:center;padding:16px 28px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;background:none;cursor:pointer;transition:all 0.3s}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.25);color:#fff}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all 0.4s ease;border-bottom:1px solid transparent}
+.nav.scrolled{padding:12px 0!important;background:rgba(8,10,15,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:rgba(255,255,255,0.06)}
+.nav-link{color:rgba(255,255,255,0.55);font-size:14px;background:none;border:none;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:color 0.2s;padding:0}
+.nav-link:hover{color:#fff}
+.nav-link.active{color:#34d399}
+.nav-cta{padding:10px 22px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);color:#080a0f;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(52,211,153,0.3)}
+
+/* Section */
+.section{padding:120px 24px;position:relative}
+.section-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+
+/* Grids */
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.grid-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+
+/* Mobile */
+.mobile-menu-btn{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+.mobile-menu{display:none}
+.desktop-nav{display:flex;align-items:center;gap:32px}
+
+@media(max-width:768px){
+  .desktop-nav{display:none!important}
+  .mobile-menu-btn{display:block!important}
+  .mobile-menu.open{display:block!important}
+  .team-card-inner{grid-template-columns:1fr!important}
+  .blog-feat-inner{grid-template-columns:1fr!important}
+}
+
+/* Page transitions */
+.page{display:none}
+.page.active{display:block}
+</style>
+</head>
+<body>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav" id="main-nav" style="padding:20px 0">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between">
+    <a href="#" onclick="navigateTo('/');return false" style="display:flex;align-items:center;gap:10px">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#34d399,#059669);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#080a0f;font-family:'Space Grotesk',sans-serif">V</div>
+      <span style="font-size:18px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em">VineAI</span>
+    </a>
+    <div class="desktop-nav">
+      <button class="nav-link" onclick="scrollToSection('solution')">Solution</button>
+      <button class="nav-link" onclick="scrollToSection('process')">Process</button>
+      <button class="nav-link" data-page="team" onclick="navigateTo('/team')">Team</button>
+      <button class="nav-link" data-page="blog" onclick="navigateTo('/blog')">Blog</button>
+      <button class="nav-cta" onclick="goToBooking()">Book a Call</button>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" style="position:absolute;top:100%;left:0;right:0;background:rgba(8,10,15,0.95);backdrop-filter:blur(20px);padding:24px;border-bottom:1px solid rgba(255,255,255,0.06)">
+    <button onclick="scrollToSection('solution');closeMobileMenu()" style="display:block;width:100%;text-align:left;padding:14px 0;color:rgba(255,255,255,0.7);font-size:16px;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer">Solution</button>
+    <button onclick="scrollToSection('process');closeMobileMenu()" style="display:block;width:100%;text-align:left;padding:14px 0;color:rgba(255,255,255,0.7);font-size:16px;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer">Process</button>
+    <button onclick="navigateTo('/team');closeMobileMenu()" style="display:block;width:100%;text-align:left;padding:14px 0;color:rgba(255,255,255,0.7);font-size:16px;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer">Team</button>
+    <button onclick="navigateTo('/blog');closeMobileMenu()" style="display:block;width:100%;text-align:left;padding:14px 0;color:rgba(255,255,255,0.7);font-size:16px;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer">Blog</button>
+    <button onclick="goToBooking();closeMobileMenu()" style="display:block;width:100%;margin-top:16px;padding:14px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);color:#080a0f;font-size:15px;font-weight:600;text-align:center;border:none;cursor:pointer">Book a Free Call</button>
+  </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div class="page active" id="page-home">
+
+<!-- Hero -->
+<section id="hero" style="min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 24px 80px">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(52,211,153,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,0.03) 1px,transparent 1px);background-size:60px 60px"></div>
+  <div style="position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(52,211,153,0.08) 0%,transparent 70%);filter:blur(60px);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-10%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,0.06) 0%,transparent 70%);filter:blur(80px);pointer-events:none"></div>
+  <div style="max-width:1200px;margin:0 auto;width:100%;position:relative;z-index:1">
+    <div class="reveal"><span class="badge">🤖 AI Automation for Australian SMBs</span></div>
+    <div class="reveal" style="transition-delay:0.1s">
+      <h1 class="font-display" style="font-size:clamp(36px,5.5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-top:24px;margin-bottom:24px">
+        Stop guessing.<br><span style="background:linear-gradient(135deg,#34d399,#6ee7b7,#a7f3d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Start automating.</span>
+      </h1>
+    </div>
+    <div class="reveal" style="transition-delay:0.2s">
+      <p style="font-size:clamp(16px,1.8vw,20px);line-height:1.65;color:rgba(255,255,255,0.55);max-width:540px;margin-bottom:36px">We audit your business, find the highest-impact AI opportunities, and implement the systems that cut costs, automate workflows, and free up your team.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.3s;display:flex;flex-wrap:wrap;gap:14px">
+      <a href="#book" class="btn-primary">Book Free Consultation →</a>
+      <a href="#process" class="btn-secondary">See How It Works</a>
+    </div>
+    <div class="reveal" style="transition-delay:0.45s;display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap">
+      <div><div class="font-display" style="font-size:28px;font-weight:700;color:#34d399" id="stat-cost">0%</div><div class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px">Avg. cost reduction</div></div>
+      <div><div class="font-display" style="font-size:28px;font-weight:700;color:#34d399" id="stat-speed">0x</div><div class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px">Workflow speedup</div></div>
+      <div><div class="font-display" style="font-size:28px;font-weight:700;color:#34d399" id="stat-ret">0%</div><div class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px">Client retention</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem -->
+<section id="problem" class="section">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(239,68,68,0.04) 0%,transparent 70%);filter:blur(80px);pointer-events:none"></div>
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:64px">
+      <div class="reveal"><span class="badge">⚠️ The Problem</span></div>
+      <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">You're leaving money<br>on the table. Every day.</h2></div>
+      <div class="reveal" style="transition-delay:0.1s"><p style="font-size:18px;color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto;line-height:1.6">Most businesses sit on massive efficiency gains — they just don't know which levers to pull.</p></div>
+    </div>
+    <div class="grid-4" id="problem-grid"></div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section id="solution" class="section">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:64px">
+      <div class="reveal"><span class="badge">✅ The Solution</span></div>
+      <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">AI that actually works<br>for your business</h2></div>
+      <div class="reveal" style="transition-delay:0.1s"><p style="font-size:18px;color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto;line-height:1.6">No buzzwords. No generic tools. High-impact AI designed around how your business actually operates.</p></div>
+    </div>
+    <div class="grid-4" id="solution-grid"></div>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="process" class="section">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:64px">
+      <div class="reveal"><span class="badge">🔄 How It Works</span></div>
+      <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">From chaos to clarity<br>in four steps</h2></div>
+    </div>
+    <div class="grid-4" id="process-grid"></div>
+  </div>
+</section>
+
+<!-- Results -->
+<section id="results" class="section">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:64px">
+      <div class="reveal"><span class="badge">⭐ Results</span></div>
+      <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">Real businesses.<br>Real results.</h2></div>
+    </div>
+    <div class="grid-stats" id="stats-grid" style="margin-bottom:48px"></div>
+    <div class="grid-3" id="testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center">
+      <div class="reveal from-right" style="transform:translateX(-40px)">
+        <span class="badge">👋 About VineAI</span>
+        <h2 class="font-display" style="font-size:clamp(28px,3.5vw,42px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:20px">Built for business owners who want answers, not hype.</h2>
+        <p style="font-size:16px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:16px">VineAI was founded because we saw Australian businesses being left behind — not for lack of ambition, but for lack of clear, practical guidance.</p>
+        <p style="font-size:16px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:32px">We're a team of AI engineers, strategists, and automation specialists who embed into your operations and deliver measurable results.</p>
+        <div style="display:flex;flex-direction:column;gap:14px" id="creds-list"></div>
+      </div>
+      <div class="reveal from-left" style="transition-delay:0.15s;transform:translateX(40px)">
+        <div class="glass" style="padding:40px 32px;background:rgba(52,211,153,0.03);border-color:rgba(52,211,153,0.1)">
+          <div class="font-mono" style="font-size:13px;color:rgba(52,211,153,0.5);margin-bottom:20px">// our_philosophy.js</div>
+          <div class="font-display" style="font-size:24px;font-weight:700;line-height:1.4;margin-bottom:24px">"Every business has AI opportunities hiding in plain sight. Our job is to find them, build them, and prove they work."</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" id="about-stats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="book" class="section">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(52,211,153,0.08) 0%,transparent 60%);filter:blur(80px);pointer-events:none"></div>
+  <div style="max-width:720px;margin:0 auto;position:relative;z-index:1">
+    <div class="reveal">
+      <div class="glass" style="padding:clamp(40px,6vw,72px) clamp(28px,5vw,56px);text-align:center;background:rgba(52,211,153,0.03);border-color:rgba(52,211,153,0.12)">
+        <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#34d399,#059669);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 28px">🚀</div>
+        <h2 class="font-display" style="font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;line-height:1.15">Ready to find out what AI<br>can do for your business?</h2>
+        <p style="font-size:17px;color:rgba(255,255,255,0.5);line-height:1.65;max-width:460px;margin:0 auto 36px">Book a free 30-minute consultation. No strings attached.</p>
+        <a href="#" class="btn-primary" style="padding:18px 40px;border-radius:14px;font-size:17px;box-shadow:0 4px 30px rgba(52,211,153,0.25)">Book Your Free Consultation →</a>
+        <div style="display:flex;justify-content:center;gap:24px;margin-top:28px;flex-wrap:wrap">
+          <span class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px"><span style="color:#34d399">✓</span> Free, no obligation</span>
+          <span class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px"><span style="color:#34d399">✓</span> 30 minutes</span>
+          <span class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px"><span style="color:#34d399">✓</span> Actionable insights</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end page-home -->
+
+<!-- ==================== TEAM PAGE ==================== -->
+<div class="page" id="page-team">
+  <div style="padding-top:100px">
+    <section class="section">
+      <div class="section-inner">
+        <div class="reveal"><button onclick="navigateTo('/')" style="background:none;border:none;color:#34d399;font-size:14px;font-family:'DM Mono',monospace;cursor:pointer;margin-bottom:32px;padding:0">← Back to Home</button></div>
+        <div style="text-align:center;margin-bottom:64px">
+          <div class="reveal"><span class="badge">👥 Our Team</span></div>
+          <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">The people behind<br>your AI transformation</h2></div>
+          <div class="reveal" style="transition-delay:0.1s"><p style="font-size:18px;color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto;line-height:1.6">A lean, senior team — every person ships real results.</p></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:32px" id="team-grid"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ==================== BLOG OVERVIEW ==================== -->
+<div class="page" id="page-blog">
+  <div style="padding-top:100px">
+    <section class="section">
+      <div class="section-inner">
+        <div class="reveal"><button onclick="navigateTo('/')" style="background:none;border:none;color:#34d399;font-size:14px;font-family:'DM Mono',monospace;cursor:pointer;margin-bottom:32px;padding:0">← Back to Home</button></div>
+        <div style="text-align:center;margin-bottom:64px">
+          <div class="reveal"><span class="badge">📝 Blog</span></div>
+          <div class="reveal" style="transition-delay:0.05s"><h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-top:20px;margin-bottom:16px;line-height:1.1">Insights, guides &<br>real-world case studies</h2></div>
+          <div class="reveal" style="transition-delay:0.1s"><p style="font-size:18px;color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto;line-height:1.6">Practical AI knowledge for Australian business owners — no fluff.</p></div>
+        </div>
+        <div id="blog-featured"></div>
+        <div class="grid-4" id="blog-grid" style="margin-top:32px"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ==================== BLOG ARTICLE (dynamic) ==================== -->
+<div class="page" id="page-article">
+  <div style="padding-top:100px">
+    <section class="section">
+      <div class="section-inner">
+        <div class="reveal"><button onclick="navigateTo('/blog')" style="background:none;border:none;color:#34d399;font-size:14px;font-family:'DM Mono',monospace;cursor:pointer;margin-bottom:32px;padding:0">← Back to Blog</button></div>
+        <div style="max-width:740px;margin:0 auto" id="article-content"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer style="padding:48px 24px 32px;border-top:1px solid rgba(255,255,255,0.06)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:40px;margin-bottom:40px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#34d399,#059669);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#080a0f;font-family:'Space Grotesk',sans-serif">V</div>
+          <span style="font-size:15px;font-weight:700;color:rgba(255,255,255,0.6);font-family:'Space Grotesk',sans-serif">VineAI</span>
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.3);line-height:1.6">AI automation for Australian SMBs.</p>
+      </div>
+      <div>
+        <div class="font-mono" style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:14px;letter-spacing:0.05em">COMPANY</div>
+        <button onclick="navigateTo('/')" style="display:block;background:none;border:none;color:rgba(255,255,255,0.3);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:4px 0">Home</button>
+        <button onclick="navigateTo('/team')" style="display:block;background:none;border:none;color:rgba(255,255,255,0.3);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:4px 0">Team</button>
+        <button onclick="navigateTo('/blog')" style="display:block;background:none;border:none;color:rgba(255,255,255,0.3);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:4px 0">Blog</button>
+      </div>
+      <div>
+        <div class="font-mono" style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:14px;letter-spacing:0.05em">LEGAL</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.3);padding:4px 0">Privacy Policy</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.3);padding:4px 0">Terms of Service</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.3);padding:4px 0">Contact</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;font-size:12px;color:rgba(255,255,255,0.2);font-family:'DM Mono',monospace">© 2026 VineAI. Melbourne, Australia.</div>
+  </div>
+</footer>
+
+<script>
+// ==================== DATA ====================
+const TEAM=[
+  {id:"liam",name:"Liam Hargraves",role:"Founder & AI Strategist",ini:"LH",grad:"linear-gradient(135deg,#34d399,#059669)",accent:"#34d399",bio:"Former McKinsey consultant turned AI evangelist. Liam spent a decade helping Fortune 500 companies optimise operations before founding VineAI to bring that same rigour to Australian SMBs. He's led over 80 AI implementations and is obsessed with finding the 20% of changes that drive 80% of results.",spec:["AI strategy","Business transformation","ROI modelling"],stats:[{v:"80+",l:"AI projects"},{v:"10yr",l:"Consulting"},{v:"$12M",l:"Saved"}],quote:"Most businesses don't need more AI — they need the right AI in the right place."},
+  {id:"maya",name:"Maya Okonkwo",role:"Head of AI Engineering",ini:"MO",grad:"linear-gradient(135deg,#60a5fa,#3b82f6)",accent:"#60a5fa",bio:"Maya leads VineAI's technical delivery — from custom GPT agents to full-stack automation pipelines. With a background in ML research at CSIRO and 6 years building production AI systems, she turns complex business problems into elegant, automated solutions.",spec:["Machine learning","Automation pipelines","Custom AI agents"],stats:[{v:"150+",l:"Automations"},{v:"PhD",l:"Comp. Sci."},{v:"6yr",l:"Prod. ML"}],quote:"The best automation is the one your team doesn't even notice — it just works."},
+  {id:"jake",name:"Jake Whitfield",role:"Client Success Lead",ini:"JW",grad:"linear-gradient(135deg,#f472b6,#ec4899)",accent:"#f472b6",bio:"Jake is the bridge between technical implementation and real-world business impact. He manages every client relationship end-to-end, ensuring AI systems don't just get deployed — they get adopted, loved, and expanded. Previously ran operations at two high-growth Australian startups.",spec:["Client management","Change management","Training & adoption"],stats:[{v:"89%",l:"Retention"},{v:"4.9★",l:"Rating"},{v:"120+",l:"Clients"}],quote:"Technology only works if your team actually uses it. That's where I come in."}
+];
+
+const POSTS=[
+  {id:"ai-audit-guide",title:"The Complete Guide to Running an AI Audit for Your SMB",excerpt:"Not sure where AI fits in your business? Here's our exact framework for identifying the highest-ROI opportunities.",category:"Strategy",time:"8 min",date:"Feb 12, 2026",featured:true,content:[{t:"i",text:"Every business has hidden inefficiencies that AI can solve. The challenge isn't whether AI can help — it's knowing where to start. After 120+ audits for Australian SMBs, we've refined a framework that consistently uncovers the highest-ROI opportunities."},{t:"h",text:"Why Most Businesses Get AI Wrong"},{t:"p",text:"The most common mistake is 'solution-first thinking' — businesses hear about a tool and try to find a problem for it. This leads to wasted money and AI scepticism. The right approach is problem-first: map your workflows, measure where time and money are lost, then match the right AI capability to each bottleneck."},{t:"h",text:"The 5-Step AI Audit Framework"},{t:"p",text:"Step 1: Process Inventory — Document every recurring workflow. We typically find 40–80 distinct processes in a company of 20. Step 2: Pain Scoring — Rate each on time consumed, error frequency, and frustration. Step 3: AI Feasibility Mapping — Assess whether current AI can meaningfully improve each high-pain process. Step 4: ROI Modelling — Calculate expected savings and cost impact. Step 5: Priority Ranking — Rank by combined ROI, speed, and risk score."},{t:"h",text:"What a Good Audit Delivers"},{t:"p",text:"A clear, prioritised roadmap — not a vague strategy deck. Each item includes the specific process to automate, the tool to use, expected ROI, and realistic timeline. Our clients typically find their top 3 opportunities account for 70% of total potential savings."},{t:"h",text:"Ready to Run Your Own Audit?"},{t:"p",text:"You can start with this framework yourself. But if you'd prefer an experienced team to do it faster, that's what our free consultation is for. We'll identify quick wins and give you a roadmap you can act on immediately."}]},
+  {id:"chatgpt-not-enough",title:"Why ChatGPT Alone Isn't Enough: Moving Beyond Basic AI",excerpt:"Your team uses ChatGPT for drafting emails. That's great — but you're only scratching the surface of what AI can do.",category:"Insights",time:"6 min",date:"Feb 5, 2026",featured:false,content:[{t:"i",text:"If your team is using ChatGPT for emails and questions, you're ahead of most. But conversational AI is just the tip of the iceberg. The real gains come from AI woven into your actual business systems."},{t:"h",text:"The ChatGPT Ceiling"},{t:"p",text:"ChatGPT doesn't know your customers, processes, or data. Every time your team uses it, they start from zero — copying context in, interpreting outputs, transferring results manually. That's assisted manual work, not automation."},{t:"h",text:"What Comes After ChatGPT"},{t:"p",text:"The next level is AI connected to your data and embedded in workflows. A system that auto-triages support tickets from your knowledge base. A pipeline that pulls CRM data, generates forecasts, and emails leadership — without anyone lifting a finger."},{t:"h",text:"The Integration Advantage"},{t:"p",text:"Integrated AI compounds benefits. Data flows automatically, decisions happen faster, teams focus on high-value work. Clients typically see 12x workflow speed improvement moving from ad-hoc ChatGPT to integrated systems."},{t:"h",text:"Making the Leap"},{t:"p",text:"Start with one high-impact workflow, automate it properly, measure results, and expand. That's exactly our approach with every VineAI client."}]},
+  {id:"automation-saves-23-hours",title:"How Automation Saved Our Clients 23 Hours Per Week (On Average)",excerpt:"We tracked time savings across 40 implementations. Here's where the biggest wins came from.",category:"Case Study",time:"7 min",date:"Jan 28, 2026",featured:false,content:[{t:"i",text:"When we tell clients our implementations save 23 hours per week on average, we get raised eyebrows. So we broke down exactly where those hours come from using data from 40 engagements."},{t:"h",text:"The Biggest Time Sinks"},{t:"p",text:"The three largest sources: data entry and transfer (8.2 hrs/week), reporting and dashboards (5.4 hrs/week), and email triage and response drafting (4.7 hrs/week). Together that's 18+ hours of recoverable time per week."},{t:"h",text:"Case Study: Coastal Builders"},{t:"p",text:"A Gold Coast construction firm with 35 employees spending 40 hours/week on admin. We implemented automated scheduling sync, AI-powered client comms, and auto-generated reports. Result: 32 hours saved per week."},{t:"h",text:"The Compound Effect"},{t:"p",text:"Time savings compound. Teams respond faster, spot problems earlier, and have capacity for growth. Several clients report revenue increases from freed-up capacity — not just cost savings."},{t:"h",text:"Your Potential Savings"},{t:"p",text:"Most SMBs with 5–100 employees have 15–30 hours per week of automatable work. The question isn't whether savings exist — it's which to capture first."}]},
+  {id:"ai-privacy-australia",title:"AI and Data Privacy: What Australian Businesses Need to Know",excerpt:"Implementing AI doesn't mean compromising on data security. Here's how to stay compliant with Australian privacy law.",category:"Compliance",time:"5 min",date:"Jan 20, 2026",featured:false,content:[{t:"i",text:"The most common concern we hear: where does my data go? Is it secure? Am I compliant? These are the right questions — and the answers are more reassuring than you think."},{t:"h",text:"The Australian Privacy Landscape"},{t:"p",text:"Australia's Privacy Act 1988 and the APPs set clear rules for personal information. When implementing AI, these rules apply just as they do to any other technology."},{t:"h",text:"Keeping Data Onshore"},{t:"p",text:"We prioritise onshore processing. Many AI tools offer AU/APAC hosting, and for sensitive data we deploy private models within your own infrastructure. Your customer data never needs to leave your control."},{t:"h",text:"Practical Privacy Safeguards"},{t:"p",text:"Every implementation includes data minimisation, role-based access, audit logging, and encryption at rest and in transit. For regulated industries, we add additional protection layers tailored to your requirements."},{t:"h",text:"The Bottom Line"},{t:"p",text:"AI and privacy aren't in conflict. With the right approach, you can automate aggressively while improving your security posture. The key is a partner who understands both the tech and the regulations."}]},
+  {id:"5-signs-ready-for-ai",title:"5 Signs Your Business Is Ready for AI (And 3 Signs It's Not)",excerpt:"AI isn't right for every business at every stage. Here's how to honestly assess whether now is the time to invest.",category:"Strategy",time:"5 min",date:"Jan 14, 2026",featured:false,content:[{t:"i",text:"Not every business is ready for AI, and that's okay. Implementing at the wrong time can be worse than not implementing at all. Here's how to tell if you're ready."},{t:"h",text:"5 Signs You're Ready"},{t:"p",text:"1. You have repeatable processes your team does weekly. 2. You're drowning in data but not extracting insights. 3. Your team is stretched thin because manual work eats their time. 4. You've tried ChatGPT/Zapier and want to go deeper. 5. You can articulate your bottlenecks."},{t:"h",text:"3 Signs You're Not Ready (Yet)"},{t:"p",text:"1. Your processes aren't documented — start there first. 2. You're looking for a magic bullet — AI amplifies good operations, doesn't fix broken ones. 3. Leadership isn't bought in — without commitment, tools gather dust."},{t:"h",text:"The Honest Assessment"},{t:"p",text:"If 3+ 'ready' signs fit you, you're in a strong position. If 'not ready' resonated more, that's valuable awareness — we can help you build toward readiness with a lighter engagement."},{t:"h",text:"Not Sure Where You Stand?"},{t:"p",text:"That's what our free consultation is for. In 30 minutes we'll give you an honest assessment and a concrete first step. No pressure, no jargon, just clarity."}]}
+];
+
+const catClass={Strategy:"cat-strategy",Insights:"cat-insights","Case Study":"cat-casestudy",Compliance:"cat-compliance"};
+
+// ==================== ROUTING ====================
+let currentPage="/";
+function navigateTo(page){
+  currentPage=page;
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  // Update active nav
+  document.querySelectorAll(".nav-link").forEach(l=>{l.classList.remove("active")});
+  if(page==="/"){
+    document.getElementById("page-home").classList.add("active");
+  }else if(page==="/team"){
+    document.getElementById("page-team").classList.add("active");
+    document.querySelector('[data-page="team"]')?.classList.add("active");
+  }else if(page==="/blog"){
+    document.getElementById("page-blog").classList.add("active");
+    document.querySelector('[data-page="blog"]')?.classList.add("active");
+  }else if(page.startsWith("/blog/")){
+    const id=page.replace("/blog/","");
+    renderArticle(id);
+    document.getElementById("page-article").classList.add("active");
+    document.querySelector('[data-page="blog"]')?.classList.add("active");
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+  // Re-trigger reveal animations
+  setTimeout(()=>initReveal(),100);
+}
+
+function scrollToSection(sectionId){
+  if(currentPage!=="/"){
+    navigateTo("/");
+    setTimeout(()=>document.getElementById(sectionId)?.scrollIntoView({behavior:"smooth"}),150);
+  }else{
+    document.getElementById(sectionId)?.scrollIntoView({behavior:"smooth"});
+  }
+}
+
+function goToBooking(){
+  if(currentPage!=="/")navigateTo("/");
+  setTimeout(()=>document.getElementById("book")?.scrollIntoView({behavior:"smooth"}),150);
+}
+function toggleMobileMenu(){
+  const m=document.getElementById("mobile-menu");
+  m.classList.toggle("open");
+  document.querySelector(".mobile-menu-btn").textContent=m.classList.contains("open")?"✕":"☰";
+}
+function closeMobileMenu(){
+  document.getElementById("mobile-menu").classList.remove("open");
+  document.querySelector(".mobile-menu-btn").textContent="☰";
+}
+
+// ==================== SCROLL NAV ====================
+window.addEventListener("scroll",()=>{
+  const nav=document.getElementById("main-nav");
+  if(window.scrollY>50)nav.classList.add("scrolled");else nav.classList.remove("scrolled");
+});
+
+// ==================== REVEAL ON SCROLL ====================
+function initReveal(){
+  document.querySelectorAll(".reveal:not(.visible)").forEach(el=>{
+    const obs=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){el.classList.add("visible");obs.unobserve(el);}
+    },{threshold:0.1});
+    obs.observe(el);
+  });
+}
+
+// ==================== HERO COUNTER ====================
+function animateCounters(){
+  let step=0;const steps=60;
+  const t=setInterval(()=>{
+    step++;const e=1-Math.pow(1-step/steps,3);
+    document.getElementById("stat-cost").textContent=Math.round(e*47)+"%";
+    document.getElementById("stat-speed").textContent=Math.round(e*12)+"x";
+    document.getElementById("stat-ret").textContent=Math.round(e*89)+"%";
+    if(step>=steps)clearInterval(t);
+  },33);
+}
+
+// ==================== RENDER HOME SECTIONS ====================
+function renderHome(){
+  // Problem cards
+  const problems=[
+    {icon:"⏱",title:"Your team wastes hours on manual work",desc:"Data entry, follow-ups, reporting — tasks that should be automated eat your team's time every day.",stat:"23 hrs/wk",sl:"lost to manual tasks"},
+    {icon:"🎯",title:"You know AI matters, but where to start?",desc:"The landscape changes weekly. You don't have time to become an AI expert on top of running a business.",stat:"73%",sl:"of SMBs unsure where to begin"},
+    {icon:"💸",title:"You're paying for tools you barely use",desc:"Subscriptions stack up but nobody's connected the dots. Spending more, getting fragmented results.",stat:"$2.4K/mo",sl:"avg. wasted on unused SaaS"},
+    {icon:"🔌",title:"Nothing talks to anything else",desc:"CRM doesn't sync with invoicing. Marketing runs in a silo. Data lives in 15 spreadsheets.",stat:"67%",sl:"of data stuck in silos"}
+  ];
+  document.getElementById("problem-grid").innerHTML=problems.map((p,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.1}s"><div class="glass hoverable" style="padding:32px 28px;height:100%">
+      <div style="font-size:28px;margin-bottom:18px">${p.icon}</div>
+      <h3 class="font-display" style="font-size:17px;font-weight:700;margin-bottom:12px;line-height:1.35">${p.title}</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.65;margin-bottom:20px">${p.desc}</p>
+      <div style="padding:14px 16px;border-radius:10px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.12)">
+        <div class="font-display" style="font-size:22px;font-weight:700;color:#f87171">${p.stat}</div>
+        <div class="font-mono" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:2px">${p.sl}</div>
+      </div>
+    </div></div>`).join("");
+
+  // Solution cards
+  const solutions=[
+    {icon:"🔍",title:"AI Opportunity Audit",desc:"We map every process, find the biggest drains, and show exactly where AI has the highest ROI.",f:["Process mapping","ROI modelling","Priority scoring"]},
+    {icon:"⚡",title:"Workflow Automation",desc:"Custom systems that eliminate repetitive tasks, reduce errors, and give your team time back.",f:["Custom integrations","Zero-code solutions","Auto-reporting"]},
+    {icon:"🧠",title:"AI Implementation",desc:"From chatbots to predictive analytics — AI tools tailored to your industry, data, and goals.",f:["Custom AI agents","Data pipelines","Smart dashboards"]},
+    {icon:"📈",title:"Ongoing Optimisation",desc:"We continuously monitor, improve, and expand your AI systems as your business grows.",f:["Performance tracking","Monthly reports","Scaling roadmap"]}
+  ];
+  document.getElementById("solution-grid").innerHTML=solutions.map((b,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.1}s"><div class="glass hoverable" style="padding:32px 28px;height:100%;display:flex;flex-direction:column">
+      <div style="width:48px;height:48px;border-radius:12px;background:rgba(52,211,153,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">${b.icon}</div>
+      <h3 class="font-display" style="font-size:18px;font-weight:700;margin-bottom:12px">${b.title}</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.65;margin-bottom:20px;flex:1">${b.desc}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">${b.f.map(f=>`<span class="tag tag-green">${f}</span>`).join("")}</div>
+    </div></div>`).join("");
+
+  // Process steps
+  const steps=[
+    {n:"01",title:"Discovery Call",desc:"30-minute call to understand your business, team, and bottlenecks. No sales pitch.",time:"Day 1",d:"Free"},
+    {n:"02",title:"AI Audit & Roadmap",desc:"We audit your workflows, data, and tools. You get a prioritised roadmap ranked by impact.",time:"Week 1–2",d:"PDF report"},
+    {n:"03",title:"Build & Implement",desc:"We design, build, and deploy your AI systems with weekly check-ins and demos.",time:"Week 3–6",d:"Agile sprints"},
+    {n:"04",title:"Launch & Optimise",desc:"Go live with full support. We monitor performance and continuously improve.",time:"Ongoing",d:"Monthly reviews"}
+  ];
+  document.getElementById("process-grid").innerHTML=steps.map((s,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.1}s"><div class="glass hoverable" style="padding:32px 28px;height:100%">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#34d399,#059669);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;color:#080a0f;flex-shrink:0">${s.n}</div>
+        <div><h3 class="font-display" style="font-size:18px;font-weight:700">${s.title}</h3><div class="font-mono" style="font-size:12px;color:#34d399;margin-top:2px">${s.time} · ${s.d}</div></div>
+      </div>
+      <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.65">${s.desc}</p>
+    </div></div>`).join("");
+
+  // Stats
+  const stats=[{v:"47%",l:"Avg. cost reduction",ic:"📉"},{v:"120+",l:"Businesses transformed",ic:"🏢"},{v:"$4.2M",l:"Client savings to date",ic:"💰"},{v:"12x",l:"Avg. workflow speedup",ic:"⚡"}];
+  document.getElementById("stats-grid").innerHTML=stats.map((s,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.05}s"><div class="glass hoverable" style="padding:28px 24px">
+      <div style="font-size:14px;margin-bottom:16px;opacity:0.4">${s.ic}</div>
+      <div class="font-display" style="font-size:clamp(28px,3.5vw,40px);font-weight:700;color:#34d399;line-height:1;margin-bottom:8px">${s.v}</div>
+      <div class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.45)">${s.l}</div>
+    </div></div>`).join("");
+
+  // Testimonials
+  const test=[
+    {name:"Sarah Chen",role:"CEO, BrightPath Logistics",loc:"Melbourne",text:"VineAI found $180K in annual savings we didn't know we were losing. Their AI audit was the single best investment we made.",stat:"$180K",sl:"annual savings",av:"SC"},
+    {name:"Marcus Drewe",role:"Ops Director, Coastal Builders",loc:"Gold Coast",text:"We went from drowning in admin to automated reporting, scheduling, and client comms. My team focuses on what matters.",stat:"32hrs",sl:"saved per week",av:"MD"},
+    {name:"Priya Sharma",role:"Founder, Elevate Digital",loc:"Sydney",text:"I was sceptical about AI consultants. VineAI changed my mind. They don't just advise — they build, deploy, and optimise.",stat:"3x",sl:"revenue per employee",av:"PS"}
+  ];
+  document.getElementById("testimonials-grid").innerHTML=test.map((t,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.1}s"><div class="glass hoverable" style="padding:32px 28px;height:100%;display:flex;flex-direction:column">
+      <div style="padding:14px 18px;border-radius:10px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.12);margin-bottom:20px;display:inline-flex;align-items:baseline;gap:8px;align-self:flex-start">
+        <span class="font-display" style="font-size:24px;font-weight:700;color:#34d399">${t.stat}</span>
+        <span class="font-mono" style="font-size:12px;color:rgba(255,255,255,0.4)">${t.sl}</span>
+      </div>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.7;flex:1;margin-bottom:24px;font-style:italic">"${t.text}"</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#080a0f;font-family:'Space Grotesk',sans-serif">${t.av}</div>
+        <div><div style="font-size:14px;font-weight:600">${t.name}</div><div class="font-mono" style="font-size:12px;color:rgba(255,255,255,0.35)">${t.role} · ${t.loc}</div></div>
+      </div>
+    </div></div>`).join("");
+
+  // About creds
+  const creds=[{i:"🇦🇺",l:"Australian-founded & operated"},{i:"🤝",l:"120+ businesses served"},{i:"🏆",l:"AI specialists since 2021"},{i:"🔒",l:"Privacy-first, data onshore"}];
+  document.getElementById("creds-list").innerHTML=creds.map(c=>`
+    <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06)">
+      <span style="font-size:20px">${c.i}</span><span style="font-size:14px;color:rgba(255,255,255,0.6);font-weight:500">${c.l}</span>
+    </div>`).join("");
+
+  // About stats
+  const aboutStats=[{v:"5–100",l:"Employee range"},{v:"SMB",l:"Focus segment"},{v:"6 weeks",l:"Avg. implementation"},{v:"AU-wide",l:"Service area"}];
+  document.getElementById("about-stats").innerHTML=aboutStats.map(s=>`
+    <div style="padding:14px;border-radius:8px;background:rgba(255,255,255,0.03)">
+      <div class="font-display" style="font-size:18px;font-weight:700;color:#34d399">${s.v}</div>
+      <div class="font-mono" style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px">${s.l}</div>
+    </div>`).join("");
+}
+
+// ==================== RENDER TEAM ====================
+function renderTeam(){
+  document.getElementById("team-grid").innerHTML=TEAM.map((m,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.1}s"><div class="glass hoverable" style="padding:0;overflow:hidden">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))" class="team-card-inner">
+        <div style="padding:48px 40px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(135deg,rgba(0,0,0,0.2),rgba(0,0,0,0.05));border-right:1px solid rgba(255,255,255,0.06);min-height:320px">
+          <div style="width:100px;height:100px;border-radius:24px;background:${m.grad};display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#080a0f;font-family:'Space Grotesk',sans-serif;margin-bottom:24px;box-shadow:0 12px 40px ${m.accent}44">${m.ini}</div>
+          <h3 class="font-display" style="font-size:22px;font-weight:700;text-align:center">${m.name}</h3>
+          <div class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:6px">${m.role}</div>
+          <div style="display:flex;gap:12px;margin-top:20px">
+            ${m.stats.map(s=>`<div style="text-align:center;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.05)"><div class="font-display" style="font-size:18px;font-weight:700">${s.v}</div><div class="font-mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px">${s.l}</div></div>`).join("")}
+          </div>
+        </div>
+        <div style="padding:40px">
+          <p style="font-size:15px;color:rgba(255,255,255,0.55);line-height:1.75;margin-bottom:24px">${m.bio}</p>
+          <div style="padding:18px 22px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);margin-bottom:24px">
+            <p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.6;font-style:italic">"${m.quote}"</p>
+          </div>
+          <div class="font-mono" style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;margin-bottom:8px">SPECIALITIES</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            ${m.spec.map(s=>`<span style="padding:6px 14px;border-radius:8px;background:${m.accent}14;border:1px solid ${m.accent}33;font-size:12px;color:${m.accent};font-family:'DM Mono',monospace">${s}</span>`).join("")}
+          </div>
+        </div>
+      </div>
+    </div></div>`).join("");
+}
+
+// ==================== RENDER BLOG ====================
+function renderBlog(){
+  const feat=POSTS.find(p=>p.featured);
+  const rest=POSTS.filter(p=>!p.featured);
+
+  if(feat){
+    document.getElementById("blog-featured").innerHTML=`
+    <div class="reveal"><div class="glass hoverable clickable" onclick="navigateTo('/blog/${feat.id}')" style="padding:0;overflow:hidden">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))" class="blog-feat-inner">
+        <div style="padding:48px 40px;background:linear-gradient(135deg,rgba(52,211,153,0.06),rgba(52,211,153,0.02));border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;justify-content:center;min-height:240px">
+          <div class="font-mono" style="font-size:80px;font-weight:700;color:rgba(52,211,153,0.12);line-height:1;margin-bottom:16px">01</div>
+          <div style="display:flex;gap:8px"><span class="font-mono" style="font-size:11px;color:rgba(255,255,255,0.35)">${feat.date}</span><span style="font-size:11px;color:rgba(255,255,255,0.2)">·</span><span class="font-mono" style="font-size:11px;color:rgba(255,255,255,0.35)">${feat.time}</span></div>
+        </div>
+        <div style="padding:48px 40px;display:flex;flex-direction:column;justify-content:center">
+          <div style="display:flex;gap:10px;margin-bottom:16px"><span class="cat ${catClass[feat.category]}">${feat.category}</span><span class="cat cat-featured">Featured</span></div>
+          <h3 class="font-display" style="font-size:clamp(20px,2.5vw,28px);font-weight:700;line-height:1.3;margin-bottom:14px">${feat.title}</h3>
+          <p style="font-size:15px;color:rgba(255,255,255,0.45);line-height:1.65">${feat.excerpt}</p>
+          <div class="font-mono" style="margin-top:20px;font-size:14px;color:#34d399">Read article →</div>
+        </div>
+      </div>
+    </div></div>`;
+  }
+
+  document.getElementById("blog-grid").innerHTML=rest.map((p,i)=>`
+    <div class="reveal" style="transition-delay:${i*0.08}s"><div class="glass hoverable clickable" onclick="navigateTo('/blog/${p.id}')" style="padding:32px 28px;height:100%;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+        <span class="cat ${catClass[p.category]}">${p.category}</span>
+        <span class="font-mono" style="font-size:11px;color:rgba(255,255,255,0.25)">${p.time}</span>
+      </div>
+      <h3 class="font-display" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:12px">${p.title}</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.4);line-height:1.65;flex:1;margin-bottom:16px">${p.excerpt}</p>
+      <div style="display:flex;justify-content:space-between"><span class="font-mono" style="font-size:12px;color:rgba(255,255,255,0.25)">${p.date}</span><span class="font-mono" style="font-size:13px;color:#34d399">Read →</span></div>
+    </div></div>`).join("");
+}
+
+// ==================== RENDER ARTICLE ====================
+function renderArticle(id){
+  const post=POSTS.find(p=>p.id===id);
+  if(!post){document.getElementById("article-content").innerHTML="<h2>Article not found</h2>";return;}
+  const others=POSTS.filter(p=>p.id!==id).slice(0,3);
+
+  let html=`
+    <div style="margin-bottom:48px">
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+        <span class="cat ${catClass[post.category]}" style="padding:5px 12px;font-size:12px">${post.category}</span>
+        <span class="font-mono" style="font-size:13px;color:rgba(255,255,255,0.3)">${post.date} · ${post.time}</span>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.03em;line-height:1.15">${post.title}</h1>
+    </div>`;
+
+  post.content.forEach(b=>{
+    if(b.t==="i")html+=`<p style="font-size:18px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,0.06)">${b.text}</p>`;
+    else if(b.t==="h")html+=`<h2 class="font-display" style="font-size:22px;font-weight:700;margin-top:40px;margin-bottom:16px">${b.text}</h2>`;
+    else html+=`<p style="font-size:16px;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:20px">${b.text}</p>`;
+  });
+
+  html+=`
+    <div class="glass" style="padding:36px 32px;margin-top:48px;text-align:center;background:rgba(52,211,153,0.03);border-color:rgba(52,211,153,0.12)">
+      <h3 class="font-display" style="font-size:20px;font-weight:700;margin-bottom:12px">Want to see what AI can do for your business?</h3>
+      <p style="font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:20px">Book a free 30-minute consultation with our team.</p>
+      <button onclick="goToBooking()" class="btn-primary" style="padding:14px 28px;font-size:15px">Book Free Consultation →</button>
+    </div>
+    <div style="margin-top:64px">
+      <h3 class="font-display" style="font-size:18px;font-weight:700;margin-bottom:24px">More from the blog</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        ${others.map(p=>`<div class="glass hoverable clickable" onclick="navigateTo('/blog/${p.id}')" style="padding:20px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px"><div style="font-size:15px;font-weight:600;margin-bottom:4px">${p.title}</div><div class="font-mono" style="font-size:12px;color:rgba(255,255,255,0.3)">${p.date} · ${p.time}</div></div>
+            <span class="font-mono" style="font-size:13px;color:#34d399;flex-shrink:0">Read →</span>
+          </div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+
+  document.getElementById("article-content").innerHTML=html;
+}
+
+// ==================== INIT ====================
+renderHome();
+renderTeam();
+renderBlog();
+animateCounters();
+setTimeout(initReveal,100);
+</script>
+</body>
+</html>
